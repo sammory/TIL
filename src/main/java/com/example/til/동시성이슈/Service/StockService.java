@@ -3,6 +3,7 @@ package com.example.til.동시성이슈.Service;
 import com.example.til.동시성이슈.domain.Stock;
 import com.example.til.동시성이슈.repository.StockRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -15,6 +16,7 @@ public class StockService {
     }
     // 재고감소 메소드를 만들기위해 Stock 아이디와 수량을 받아서 생성
     //@Transactional --> decrease 메서드가 끝났지만 트랜잭션이 종료되기전에 decrease 메서드를 실행하게 되면 정확한 데이터를 가져가지 못함
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // 부모의 트랜잭션과 별도로 실행되어야 하기 떄문에 propagation 변경
     public synchronized void decrease(Long id, Long quantity) {
         Stock stock = stockRepository.findById(id).orElseThrow();
 
