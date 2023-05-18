@@ -1,9 +1,6 @@
 package com.example.til.동시성이슈.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Stock {
@@ -15,6 +12,10 @@ public class Stock {
     private Long productId;
 
     private Long quantity;
+
+    // optimistic lock 사용시
+    @Version
+    private Long version;
 
     // 생성자 추가
     public Stock() {
